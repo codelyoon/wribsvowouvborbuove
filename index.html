@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question for Aria ❤️</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:linear-gradient(135deg,#ff9ecf,#ffd6ec,#fff0f7);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+text-align:center;
+background:rgba(255,255,255,0.85);
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 40px rgba(0,0,0,.15);
+max-width:650px;
+width:90%;
+}
+
+h1{
+font-size:3rem;
+margin-bottom:15px;
+color:#ff4f8b;
+}
+
+p{
+font-size:1.2rem;
+margin-bottom:25px;
+color:#444;
+}
+
+.heart{
+font-size:80px;
+animation:bounce 1.5s infinite;
+margin-bottom:15px;
+}
+
+@keyframes bounce{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-15px);}
+}
+
+.buttons{
+position:relative;
+height:150px;
+margin-top:20px;
+}
+
+button{
+border:none;
+padding:15px 35px;
+font-size:1.2rem;
+border-radius:999px;
+cursor:pointer;
+transition:.2s;
+font-weight:bold;
+}
+
+#yesBtn{
+background:#ff4f8b;
+color:white;
+margin-right:20px;
+}
+
+#yesBtn:hover{
+transform:scale(1.08);
+}
+
+#noBtn{
+background:#ddd;
+color:#333;
+position:absolute;
+}
+
+.success{
+display:none;
+animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.big-heart{
+font-size:120px;
+animation:bounce 1.2s infinite;
+}
+
+.small{
+margin-top:15px;
+font-size:1rem;
+color:#777;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div id="questionScreen">
+
+<div class="heart">❤️</div>
+
+<h1>Hi Aria</h1>
+
+<p>
+I've done extensive scientific research, consulted leading experts,
+and run thousands of simulations...
+</p>
+
+<p>
+And every result came back with the same conclusion:
+</p>
+
+<h2 style="margin-bottom:25px;color:#ff4f8b;">
+Will you be my girlfriend?
+</h2>
+
+<div class="buttons">
+
+<button id="yesBtn">
+YES ❤️
+</button>
+
+<button id="noBtn">
+No 😅
+</button>
+
+</div>
+
+</div>
+
+<div id="successScreen" class="success">
+
+<div class="big-heart">💖</div>
+
+<h1>YAY!!!</h1>
+
+<p>
+Best decision of 2026 confirmed.
+</p>
+
+<p>
+You are now officially my girlfriend.
+</p>
+
+<p class="small">
+(According to highly reliable and definitely unbiased sources.)
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+let messages = [
+"No 😅",
+"Are you sure? 🥺",
+"Really sure? 😭",
+"Think again 💔",
+"Wait wait wait 😂",
+"That seems incorrect 🤨",
+"Try the other button ❤️"
+];
+
+let index = 0;
+
+function moveButton(){
+
+const maxX = window.innerWidth - 200;
+const maxY = window.innerHeight - 100;
+
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
+
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
+index++;
+
+if(index < messages.length){
+noBtn.textContent = messages[index];
+}
+}
+
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("click", moveButton);
+
+yesBtn.addEventListener("click", () => {
+
+document.getElementById("questionScreen").style.display = "none";
+document.getElementById("successScreen").style.display = "block";
+
+for(let i=0;i<80;i++){
+
+const heart = document.createElement("div");
+
+heart.innerHTML = "💖";
+heart.style.position = "fixed";
+heart.style.left = Math.random()*100 + "vw";
+heart.style.top = "-50px";
+heart.style.fontSize = (20 + Math.random()*30) + "px";
+heart.style.pointerEvents = "none";
+
+document.body.appendChild(heart);
+
+heart.animate([
+{transform:"translateY(0px)"},
+{transform:"translateY(120vh)"}
+],{
+duration:3000 + Math.random()*2000,
+iterations:1
+});
+
+setTimeout(()=>heart.remove(),5000);
+}
+
+});
+
+</script>
+
+</body>
+</html>
