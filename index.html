@@ -39,8 +39,8 @@ color:#ff4f8b;
 }
 
 p{
-font-size:1.2rem;
-margin-bottom:25px;
+font-size:1.1rem;
+margin-bottom:20px;
 color:#444;
 }
 
@@ -57,7 +57,7 @@ margin-bottom:15px;
 
 .buttons{
 position:relative;
-height:150px;
+height:180px;
 margin-top:20px;
 }
 
@@ -87,7 +87,7 @@ background:#ddd;
 color:#333;
 position:absolute;
 left:50%;
-top:40px;
+top:90px;
 transform:translateX(-50%);
 }
 
@@ -120,21 +120,25 @@ color:#777;
 
 <div id="questionScreen">
 
-<div class="heart">❤️</div>
+<div class="heart">💖</div>
 
-<h1>Hi Aria</h1>
+<h1>Alright Aria...</h1>
 
 <p>
-I've done extensive scientific research, consulted leading experts,
-and run thousands of simulations...
+After extensive scientific testing, emotional overthinking, and at least 3 nights of losing sleep,
+I’ve reached a completely unbiased conclusion:
 </p>
 
 <p>
-And every result came back with the same conclusion:
+My brain has officially stopped functioning normally.
 </p>
 
 <h2 style="margin-bottom:25px;color:#ff4f8b;">
-Will you be my girlfriend?
+So I have one very serious question:
+</h2>
+
+<h2 style="margin-bottom:25px;color:#ff4f8b;">
+Will you be my girlfriend? 🫣
 </h2>
 
 <div class="buttons">
@@ -149,13 +153,15 @@ Will you be my girlfriend?
 
 <div class="big-heart">💖</div>
 
-<h1>YAY!!!</h1>
+<h1>WAIT WHAT?! 😭🎉</h1>
 
-<p>Best decision of 2026 confirmed.</p>
+<p>You actually said yes… this was not in the simulation results.</p>
 
-<p>You are now officially my girlfriend.</p>
+<p>System status: heart.exe is now permanently running.</p>
 
-<p class="small">(According to highly reliable and definitely unbiased sources.)</p>
+<p>You are officially my girlfriend (no refunds, no take-backs).</p>
+
+<p class="small">(This message was approved by absolutely nobody.)</p>
 
 </div>
 
@@ -165,19 +171,19 @@ Will you be my girlfriend?
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const container = document.querySelector(".container");
 
 let messages = [
 "No 😅",
-"Are you sure? 🥺",
-"Really sure? 😭",
-"Think again 💔",
-"Wait wait wait 😂",
-"Wrong answer 🤨",
+"You sure? 🥺",
+"Really REALLY sure? 😭",
+"Think carefully 💔",
+"Wait hold on 😂",
+"That answer seems… scientifically incorrect 🤨",
 "Try again ❤️",
-"Almost got it 😎",
-"Nice try 😏",
-"Suspicious choice 🤔",
-"The other button is better 💖"
+"Okay now you're just being mean 😤",
+"Suspicious behavior detected 🤔",
+"Last chance before emotional damage 💖"
 ];
 
 let index = 0;
@@ -189,12 +195,14 @@ if(e){
 e.preventDefault();
 }
 
-// make YES grow every time she tries NO
 yesSize += 0.12;
 yesBtn.style.transform = `scale(${yesSize})`;
 
-const maxX = Math.max(60, window.innerWidth - 200);
-const maxY = Math.max(60, window.innerHeight - 150);
+const rect = container.getBoundingClientRect();
+const btnRect = noBtn.getBoundingClientRect();
+
+const maxX = rect.width - btnRect.width - 10;
+const maxY = rect.height - btnRect.height - 10;
 
 const x = Math.random() * maxX;
 const y = Math.random() * maxY;
@@ -208,8 +216,8 @@ index++;
 noBtn.textContent = messages[index];
 }
 
-// retire the No button after chaos
-if(index >= 9){
+if(index >= 8){
+
 noBtn.style.display = "none";
 
 let msg = document.getElementById("noRetired");
@@ -217,7 +225,7 @@ let msg = document.getElementById("noRetired");
 if(!msg){
 msg = document.createElement("p");
 msg.id = "noRetired";
-msg.textContent = "The No button has resigned from its position ❤️";
+msg.textContent = "The No button has officially quit under emotional distress 💔";
 msg.style.marginTop = "15px";
 msg.style.color = "#777";
 msg.style.fontWeight = "bold";
@@ -226,7 +234,6 @@ document.querySelector(".buttons").appendChild(msg);
 }
 }
 
-// desktop + mobile support
 noBtn.addEventListener("mouseover", moveButton);
 noBtn.addEventListener("click", moveButton);
 noBtn.addEventListener("touchstart", moveButton, { passive: false });
