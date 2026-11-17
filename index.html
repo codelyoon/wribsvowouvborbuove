@@ -118,7 +118,7 @@ p{
 
 .buttons{
   position:relative;
-  height:280px;
+  height:300px;
   margin-top:20px;
   width:100%;
 }
@@ -167,6 +167,21 @@ p{
   margin-top:15px;
   color:#888;
   font-size:0.95rem;
+}
+
+#noRetired{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  text-align:center;
+  margin:0;
+  z-index:10;
+  color:#888;
+  font-weight:600;
+  font-size:1rem;
+  line-height:1.4;
 }
 </style>
 </head>
@@ -266,7 +281,6 @@ function rectsOverlap(r1, r2) {
 function moveButton(e){
   if(e) e.preventDefault();
 
-  // Grow Yes (capped so it doesn't get ridiculous)
   yesScale = Math.min(yesScale + 0.09, 1.85);
   yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
 
@@ -285,7 +299,6 @@ function moveButton(e){
     x = Math.random() * Math.max(0, maxX);
     y = Math.random() * Math.max(0, maxY);
 
-    // Proposed position of No button
     const noRect = {
       left: areaRect.left + x,
       top: areaRect.top + y,
@@ -299,9 +312,8 @@ function moveButton(e){
     attempts++;
   }
 
-  // Fallback: force it lower if somehow no good spot found
   if (!found) {
-    y = Math.max(yesRect.bottom - areaRect.top + 15, 120);
+    y = Math.max(yesRect.bottom - areaRect.top + 20, 130);
     x = Math.random() * Math.max(0, areaRect.width - noW - 12);
   }
 
@@ -319,9 +331,6 @@ function moveButton(e){
       const msg = document.createElement("p");
       msg.id = "noRetired";
       msg.textContent = "The No button has officially quit under emotional distress 💔";
-      msg.style.marginTop = "40px";
-      msg.style.color = "#888";
-      msg.style.fontWeight = "600";
       buttonsArea.appendChild(msg);
     }
   }
@@ -363,7 +372,7 @@ setTimeout(() => {
   const area = buttonsArea.getBoundingClientRect();
   const noW = noBtn.offsetWidth;
   noBtn.style.left = (area.width / 2 - noW / 2) + "px";
-  noBtn.style.top = "160px";
+  noBtn.style.top = "170px";
 }, 100);
 </script>
 
