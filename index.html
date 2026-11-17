@@ -20,11 +20,10 @@ body{
   justify-content:center;
   align-items:center;
   font-family:'Poppins', sans-serif;
-  overflow-x:hidden;
+  overflow:hidden;
   position:relative;
 }
 
-/* Floating background hearts */
 .bg-heart{
   position:absolute;
   color:rgba(255,79,139,0.15);
@@ -50,10 +49,26 @@ body{
   width:92%;
   z-index:10;
   position:relative;
+  max-height:90vh;
+  overflow:hidden;
+}
+
+.screen{
+  display:none;
+  animation:fadeIn 0.6s ease;
+}
+
+.screen.active{
+  display:block;
+}
+
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(20px); }
+  to{ opacity:1; transform:translateY(0); }
 }
 
 .heart{
-  font-size:90px;
+  font-size:80px;
   animation:bounce 1.6s infinite;
   margin-bottom:10px;
   filter:drop-shadow(0 5px 10px rgba(255,79,139,0.3));
@@ -61,12 +76,12 @@ body{
 
 @keyframes bounce{
   0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-18px); }
+  50%{ transform:translateY(-15px); }
 }
 
 h1{
   font-family:'Pacifico', cursive;
-  font-size:3.4rem;
+  font-size:3.2rem;
   color:#ff4f8b;
   margin-bottom:15px;
   line-height:1.1;
@@ -75,84 +90,85 @@ h1{
 p{
   font-size:1.15rem;
   color:#444;
-  margin-bottom:18px;
-  line-height:1.6;
+  margin-bottom:20px;
+  line-height:1.65;
 }
 
-.question{
-  font-size:1.8rem;
+.nextBtn, button{
+  border:none;
+  padding:15px 38px;
+  font-size:1.2rem;
+  border-radius:999px;
+  cursor:pointer;
   font-weight:600;
-  color:#ff4f8b;
-  margin:25px 0 35px;
+  font-family:'Poppins', sans-serif;
+  transition:all 0.25s ease;
+  margin-top:10px;
+}
+
+.nextBtn{
+  background:linear-gradient(135deg,#ff4f8b,#ff7aa2);
+  color:white;
+  box-shadow:0 8px 20px rgba(255,79,139,0.35);
+}
+
+.nextBtn:hover{
+  transform:scale(1.06);
 }
 
 .buttons{
   position:relative;
-  height:160px;
-  margin-top:10px;
-}
-
-button{
-  border:none;
-  padding:16px 42px;
-  font-size:1.25rem;
-  border-radius:999px;
-  cursor:pointer;
-  font-weight:600;
-  transition:all 0.25s ease;
-  font-family:'Poppins', sans-serif;
+  height:200px;
+  margin-top:25px;
+  width:100%;
 }
 
 #yesBtn{
   background:linear-gradient(135deg,#ff4f8b,#ff7aa2);
   color:white;
   box-shadow:0 8px 20px rgba(255,79,139,0.4);
+  position:absolute;
+  left:50%;
+  top:20px;
+  transform:translateX(-50%);
   transform-origin:center;
+  z-index:5;
 }
 
 #yesBtn:hover{
-  transform:scale(1.08);
-  box-shadow:0 12px 30px rgba(255,79,139,0.5);
+  transform:translateX(-50%) scale(1.08);
 }
 
 #noBtn{
   background:#f0f0f0;
   color:#555;
   position:absolute;
-  left:50%;
-  top:80px;
-  transform:translateX(-50%);
   box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  z-index:4;
+  white-space:nowrap;
 }
 
-.success{
-  display:none;
-  animation:fadeIn 0.8s ease;
+.success h1{
+  font-size:2.8rem;
+  margin:8px 0;
 }
 
-@keyframes fadeIn{
-  from{ opacity:0; transform:translateY(30px); }
-  to{ opacity:1; transform:translateY(0); }
+.love{
+  font-size:2.2rem !important;
+  font-weight:700 !important;
+  color:#ff4f8b !important;
+  margin:18px 0 !important;
+  line-height:1.3;
 }
 
 .big-heart{
-  font-size:140px;
+  font-size:130px;
   animation:bounce 1.3s infinite;
   filter:drop-shadow(0 10px 15px rgba(255,79,139,0.4));
 }
 
-.success h1{
-  font-size:3rem;
-  margin:10px 0;
-}
-
-.success p{
-  font-size:1.25rem;
-  margin:12px 0;
-}
-
 .small{
-  margin-top:20px;
+  margin-top:15px;
   color:#888;
   font-size:0.95rem;
 }
@@ -160,32 +176,46 @@ button{
 </head>
 <body>
 
-<!-- Background hearts -->
 <script>
-for(let i=0;i<18;i++){
+for(let i=0;i<16;i++){
   const h = document.createElement('div');
   h.className = 'bg-heart';
   h.innerHTML = '♥';
   h.style.left = Math.random()*100 + 'vw';
-  h.style.fontSize = (18 + Math.random()*28) + 'px';
+  h.style.fontSize = (16 + Math.random()*26) + 'px';
   h.style.animationDuration = (10 + Math.random()*10) + 's';
-  h.style.animationDelay = Math.random()*5 + 's';
+  h.style.animationDelay = Math.random()*6 + 's';
   document.body.appendChild(h);
 }
 </script>
 
 <div class="container">
 
-  <div id="questionScreen">
+  <!-- Screen 1 -->
+  <div id="screen1" class="screen active">
     <div class="heart">❤️</div>
-
     <h1>Alright Kyleigh...</h1>
+    <p>I've been thinking about this a lot lately.</p>
+    <p>I really like spending time with you… a lot more than I expected.</p>
+    <button class="nextBtn" onclick="showScreen('screen2')">Continue →</button>
+  </div>
 
-    <p>I've been thinking about this a lot lately.<br>
-    I really like spending time with you… a lot more than I expected.</p>
+  <!-- Screen 2 -->
+  <div id="screen2" class="screen">
+    <div class="heart">💞</div>
+    <h1>Seriously though...</h1>
+    <p>I genuinely have never connected with someone like I have with you.</p>
+    <p>I really like talking to you and doing everything with you.</p>
+    <p style="font-style:italic; color:#ff4f8b;">…and yes, even our equal hatred for taco people 😂</p>
+    <button class="nextBtn" onclick="showScreen('questionScreen')">Next →</button>
+  </div>
 
-    <div class="question">
-      So… will you be my girlfriend? 🫣
+  <!-- Question Screen -->
+  <div id="questionScreen" class="screen">
+    <div class="heart">❤️</div>
+    <h1>So…</h1>
+    <div style="font-size:1.75rem; font-weight:600; color:#ff4f8b; margin:20px 0 30px;">
+      Will you be my girlfriend? 🫣
     </div>
 
     <div class="buttons">
@@ -194,24 +224,28 @@ for(let i=0;i<18;i++){
     </div>
   </div>
 
-  <div id="successScreen" class="success">
+  <!-- Success Screen -->
+  <div id="successScreen" class="screen">
     <div class="big-heart">💖</div>
-
-    <h1>WAIT… REALLY?! 😭🎉</h1>
-
+    <h1>YAY!! 😭🎉</h1>
     <p>You actually said yes.</p>
     <p>This is the best thing ever.</p>
+    <p class="love">I love you Kyleigh :P <3</p>
     <p style="font-weight:600; color:#ff4f8b;">You’re officially my girlfriend now.<br>(No take-backs allowed ❤️)</p>
-
     <p class="small">I’m really happy right now.</p>
   </div>
 
 </div>
 
 <script>
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
-const container = document.querySelector(".container");
+const buttonsArea = document.querySelector(".buttons");
 
 const messages = [
   "No 😅",
@@ -219,7 +253,7 @@ const messages = [
   "Really REALLY sure? 😭",
   "Think carefully… 💔",
   "Wait hold on 😂",
-  "That answer seems scientifically incorrect 🤨",
+  "That seems… incorrect 🤨",
   "Try again? ❤️",
   "Okay now you're just being mean 😤",
   "Suspicious behavior detected 🤔",
@@ -227,26 +261,27 @@ const messages = [
 ];
 
 let index = 0;
-let yesSize = 1;
+let yesScale = 1;
 
 function moveButton(e){
   if(e) e.preventDefault();
 
-  yesSize += 0.11;
-  yesBtn.style.transform = `scale(${yesSize})`;
+  yesScale += 0.10;
+  yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
 
-  const rect = container.getBoundingClientRect();
-  const btnRect = noBtn.getBoundingClientRect();
+  const area = buttonsArea.getBoundingClientRect();
+  const btn = noBtn.getBoundingClientRect();
 
-  const maxX = rect.width - btnRect.width - 20;
-  const maxY = rect.height - btnRect.height - 20;
+  // Strict bounds so the button never leaves the buttons area
+  const padding = 10;
+  const maxX = area.width - btn.width - padding;
+  const maxY = area.height - btn.height - padding;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+  const x = Math.random() * Math.max(maxX, 0);
+  const y = Math.random() * Math.max(maxY, 0);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
-  noBtn.style.transform = "none";
 
   if(index < messages.length - 1){
     index++;
@@ -255,15 +290,14 @@ function moveButton(e){
 
   if(index >= 8){
     noBtn.style.display = "none";
-
     if(!document.getElementById("noRetired")){
       const msg = document.createElement("p");
       msg.id = "noRetired";
       msg.textContent = "The No button has officially quit under emotional distress 💔";
-      msg.style.marginTop = "20px";
+      msg.style.marginTop = "30px";
       msg.style.color = "#888";
       msg.style.fontWeight = "600";
-      document.querySelector(".buttons").appendChild(msg);
+      buttonsArea.appendChild(msg);
     }
   }
 }
@@ -273,34 +307,40 @@ noBtn.addEventListener("click", moveButton);
 noBtn.addEventListener("touchstart", moveButton, {passive:false});
 
 yesBtn.addEventListener("click", () => {
-  document.getElementById("questionScreen").style.display = "none";
-  document.getElementById("successScreen").style.display = "block";
+  showScreen("successScreen");
 
   // Heart rain
-  for(let i=0; i<100; i++){
+  for(let i=0; i<90; i++){
     const heart = document.createElement("div");
-    heart.innerHTML = Math.random() > 0.5 ? "💖" : "❤️";
+    heart.innerHTML = Math.random() > 0.45 ? "💖" : "❤️";
     heart.style.position = "fixed";
     heart.style.left = Math.random()*100 + "vw";
-    heart.style.top = "-60px";
-    heart.style.fontSize = (18 + Math.random()*35) + "px";
+    heart.style.top = "-50px";
+    heart.style.fontSize = (18 + Math.random()*34) + "px";
     heart.style.pointerEvents = "none";
-    heart.style.zIndex = "1000";
-    heart.style.opacity = "0.9";
+    heart.style.zIndex = "999";
     document.body.appendChild(heart);
 
     heart.animate([
       { transform: "translateY(0) rotate(0deg)", opacity: 1 },
-      { transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random()*360}deg)`, opacity: 0.7 }
+      { transform: `translateY(${window.innerHeight + 80}px) rotate(${Math.random()*360}deg)`, opacity: 0.6 }
     ], {
-      duration: 2800 + Math.random()*2000,
+      duration: 2600 + Math.random()*1800,
       easing: "linear",
       fill: "forwards"
     });
 
-    setTimeout(() => heart.remove(), 5000);
+    setTimeout(() => heart.remove(), 4800);
   }
 });
+
+// Initial position for No button
+setTimeout(() => {
+  const area = buttonsArea.getBoundingClientRect();
+  const btn = noBtn.getBoundingClientRect();
+  noBtn.style.left = (area.width / 2 - btn.width / 2) + "px";
+  noBtn.style.top = "110px";
+}, 100);
 </script>
 
 </body>
