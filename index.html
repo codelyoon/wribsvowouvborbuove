@@ -118,8 +118,8 @@ p{
 
 .buttons{
   position:relative;
-  height:200px;
-  margin-top:25px;
+  height:280px;
+  margin-top:20px;
   width:100%;
 }
 
@@ -129,14 +129,10 @@ p{
   box-shadow:0 8px 20px rgba(255,79,139,0.4);
   position:absolute;
   left:50%;
-  top:20px;
+  top:15px;
   transform:translateX(-50%);
   transform-origin:center;
   z-index:5;
-}
-
-#yesBtn:hover{
-  transform:translateX(-50%) scale(1.08);
 }
 
 #noBtn{
@@ -144,7 +140,7 @@ p{
   color:#555;
   position:absolute;
   box-shadow:0 4px 12px rgba(0,0,0,0.1);
-  z-index:4;
+  z-index:6;
   white-space:nowrap;
 }
 
@@ -214,7 +210,7 @@ for(let i=0;i<16;i++){
   <div id="questionScreen" class="screen">
     <div class="heart">❤️</div>
     <h1>So…</h1>
-    <div style="font-size:1.75rem; font-weight:600; color:#ff4f8b; margin:20px 0 30px;">
+    <div style="font-size:1.75rem; font-weight:600; color:#ff4f8b; margin:20px 0 25px;">
       Will you be my girlfriend? 🫣
     </div>
 
@@ -263,22 +259,51 @@ const messages = [
 let index = 0;
 let yesScale = 1;
 
+function rectsOverlap(r1, r2) {
+  return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+}
+
 function moveButton(e){
   if(e) e.preventDefault();
 
-  yesScale += 0.10;
+  // Grow Yes (capped so it doesn't get ridiculous)
+  yesScale = Math.min(yesScale + 0.09, 1.85);
   yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
 
-  const area = buttonsArea.getBoundingClientRect();
-  const btn = noBtn.getBoundingClientRect();
+  const areaRect = buttonsArea.getBoundingClientRect();
+  const yesRect = yesBtn.getBoundingClientRect();
+  const noW = noBtn.offsetWidth;
+  const noH = noBtn.offsetHeight;
 
-  // Strict bounds so the button never leaves the buttons area
-  const padding = 10;
-  const maxX = area.width - btn.width - padding;
-  const maxY = area.height - btn.height - padding;
+  let x, y, attempts = 0;
+  let found = false;
 
-  const x = Math.random() * Math.max(maxX, 0);
-  const y = Math.random() * Math.max(maxY, 0);
+  while (attempts < 40 && !found) {
+    const maxX = areaRect.width - noW - 12;
+    const maxY = areaRect.height - noH - 12;
+
+    x = Math.random() * Math.max(0, maxX);
+    y = Math.random() * Math.max(0, maxY);
+
+    // Proposed position of No button
+    const noRect = {
+      left: areaRect.left + x,
+      top: areaRect.top + y,
+      right: areaRect.left + x + noW,
+      bottom: areaRect.top + y + noH
+    };
+
+    if (!rectsOverlap(noRect, yesRect)) {
+      found = true;
+    }
+    attempts++;
+  }
+
+  // Fallback: force it lower if somehow no good spot found
+  if (!found) {
+    y = Math.max(yesRect.bottom - areaRect.top + 15, 120);
+    x = Math.random() * Math.max(0, areaRect.width - noW - 12);
+  }
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
@@ -294,7 +319,7 @@ function moveButton(e){
       const msg = document.createElement("p");
       msg.id = "noRetired";
       msg.textContent = "The No button has officially quit under emotional distress 💔";
-      msg.style.marginTop = "30px";
+      msg.style.marginTop = "40px";
       msg.style.color = "#888";
       msg.style.fontWeight = "600";
       buttonsArea.appendChild(msg);
@@ -309,7 +334,6 @@ noBtn.addEventListener("touchstart", moveButton, {passive:false});
 yesBtn.addEventListener("click", () => {
   showScreen("successScreen");
 
-  // Heart rain
   for(let i=0; i<90; i++){
     const heart = document.createElement("div");
     heart.innerHTML = Math.random() > 0.45 ? "💖" : "❤️";
@@ -334,12 +358,12 @@ yesBtn.addEventListener("click", () => {
   }
 });
 
-// Initial position for No button
+// Initial safe position for No (below Yes)
 setTimeout(() => {
   const area = buttonsArea.getBoundingClientRect();
-  const btn = noBtn.getBoundingClientRect();
-  noBtn.style.left = (area.width / 2 - btn.width / 2) + "px";
-  noBtn.style.top = "110px";
+  const noW = noBtn.offsetWidth;
+  noBtn.style.left = (area.width / 2 - noW / 2) + "px";
+  noBtn.style.top = "160px";
 }, 100);
 </script>
 
